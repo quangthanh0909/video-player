@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <script src="jquery.js"></script>
+    <script>
+   
+    </script>
+    <style>
+      .menu {
+        width: 300px;
+      }
+      .cap1 {
+        padding: 10px;
+        background-color: brown;
+        color: yellow;
+        border: solid 1px black;
+      }
+      .cap2 {
+        padding: 10px;
+        padding-left: 30px;
+        background-color: chartreuse;
+        color: black;
+        border: solid 1px black;
+      }
+      .container {
+        width: 500px;
+        margin: 20px auto;
+      }
+      #chonCap2 {
+        min-width: 200px;
+        min-height: 20px;
+        margin: 10px 0;
+      }
+      .my-10{
+        margin: 10px 0;
+      }
+      .displayblock{
+          display: block;
+          width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h3>Add Video Information</h3>
+      <form action="/xuly" method="POST" enctype="multipart/form-data">
+           
+         <select name="cap2" id="chonCap2" class="displayblock"> 
+           <%data.forEach(ele => { %>
+            <option value="<%=ele._id%>"><%=ele.name%></option>
+           <%});%>
+         </select>
+        
+        <input class="my-10 displayblock" type="text" name="videoid" placeholder="video ID from Youtube" />
+        
+        <input class="my-10 displayblock" type="file" value="Add new" name="avatar" />
+        <input class="my-10 displayblock" type="submit" value="Save">
+      </form>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="jquery.js"></script>
+    <script>
+    
+    
+
+    $(document).ready(function(){
+
+        $(document).on(".cap1", "click", function(){
+            alert(1);
+            $(this).next().slideToggle();
+        });
+
+        $(".cap2").hide();
+
+        $("#btnAddCap1").click(function(){
+            $.post("http://localhost:3000/cap1", {name:$("#txtCap1").val()} , function(data){
+                if(data.kq==1){
+
+                    // lấy danh sach cap1
+                    $.post("http://localhost:3000/list/cap1", function(data2){
+                        if(data2.kq==1){                        
+                            data2.ds.forEach(function(item){
+                                var chuoi = "<option value='"+ item._id +"'>"+item.name+"</option>"
+                                $("#chonCap1").append(chuoi);
+                            });
+                        }else{
+                            alert("List menu error")
+                        }
+                    });
+
+                }else{ alert("Save cap1 thất bại.") }
+            });
+        });
+
+        $("#btnAddCap2").click(function(){
+            $.post("http://localhost:3000/cap2", 
+                {
+                    name:$("#txtCap2").val(), 
+                    id1:$("#chonCap1").val()
+                }, function(data){
+                    if(data.kq==1){
+                        alert("Save cap 2 thanh cong");
+                    }else{
+                        alert("Save cap 2 that bai");
+                    }
+            });
+        });
+
+        $("#btnMenu").click(function(){
+            $.post("http://localhost:3000/list/cap1", function(data){
+                if(data.kq==1){
+                    data.ds.forEach(function(cap1){
+
+                        var chuoi = "";
+                        cap1.danhsach.forEach(function(cap2){
+                            chuoi += `<div class='cap2'>` + cap2.name + `</div>`; 
+                        });
+
+                        $(".menu").append(`
+                        <div class='cap1'>` + cap1.name +`</div>
+                        <div>
+                            ` + chuoi +`
+                        </div>
+                        `);
+                    });
+                }else{
+                    alert("BAD");
+                }
+            });
+        });
+
+    });
+    </script>
+    <style>
+    .menu{width: 300px}
+    .cap1{padding:10px; background-color: brown; color: yellow; border:solid 1px black}
+    .cap2{padding:10px; padding-left:30px; background-color:chartreuse ;color:black; border:solid 1px black}
+    .container {width: 60%; margin: 20px auto}
+    #chonCap1{
+        min-width: 100px;
+    }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <input type="text" id="txtCap1" placeholder="Name cap 1" />
+    <input type="button" id="btnAddCap1" value="Add new" /> <hr/>
+
+    <select id="chonCap1">
+    </select>
+    <input type="text" id="txtCap2" placeholder="Name cap 2" />
+    <input type="button" id="btnAddCap2" value="Add new" /> <hr/>
+
+    <input type="button" id="btnMenu" value="Show" />
+
+    <div class="menu">
+
+        
+
+    </div>
+    </div>
+</body>
+</html>
